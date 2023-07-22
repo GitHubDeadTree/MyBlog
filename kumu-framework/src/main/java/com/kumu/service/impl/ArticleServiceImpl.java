@@ -9,6 +9,7 @@ import com.kumu.domain.entity.Article;
 import com.kumu.domain.vo.HotArticleVo;
 import com.kumu.mapper.ArticleMapper;
 import com.kumu.service.ArticleService;
+import com.kumu.utils.BeanCopyUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //查询热门文章，封装成ResponseResult
         LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
         //必须是正式文章
-        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_DRAFT);
+        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
         //按照浏览量排序
         queryWrapper.orderByDesc(Article::getViewCount);
         //最多十条消息
@@ -30,12 +31,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page(page,queryWrapper);
         List<Article> articles = page.getRecords();
         List<HotArticleVo> articleVos = new ArrayList<>();
-        //bean拷贝
-        for (Article article : articles) {
-            HotArticleVo vo = new HotArticleVo();
-            BeanUtils.copyProperties(article,vo);
-            articleVos.add(vo);
-        }
-        return ResponseResult.okResult(articleVos);
+        List<HotArticleVo> vs = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
+        return ResponseResult.okResult(vs);
     }
 }

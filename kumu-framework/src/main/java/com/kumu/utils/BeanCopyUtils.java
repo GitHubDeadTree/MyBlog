@@ -5,6 +5,9 @@ import com.kumu.domain.vo.HotArticleVo;
 import org.apache.poi.hssf.record.ObjRecord;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class BeanCopyUtils {
     private BeanCopyUtils(){
 
@@ -21,6 +24,12 @@ public class BeanCopyUtils {
         }
 
         return result;
+    }
+
+    public static <O,V> List<V> copyBeanList(List<O> list, Class<V> clazz){
+        return list.stream()
+                .map(o -> copyBean(o,clazz))
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
