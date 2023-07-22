@@ -20,7 +20,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //必须是正式文章
         queryWrapper.eq(Article::getStatus,0);
         //按照浏览量排序
-        queryWrapper.orderByAsc(Article::getViewCount);
+        queryWrapper.orderByDesc(Article::getViewCount);
         //最多十条消息
         Page<Article> page=new Page(1,10);
         page(page,queryWrapper);

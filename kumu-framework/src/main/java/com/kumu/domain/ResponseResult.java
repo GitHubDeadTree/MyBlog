@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kumu.enums.AppHttpCodeEnum;
 
 import java.io.Serializable;
-
+//统一信息封装
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseResult<T> implements Serializable {
     private Integer code;
     private String msg;
     private T data;
-    private AppHttpCodeEnum appHttpCodeEnum;
+    private AppHttpCodeEnum appHttpCodeEnum; //枚举类，相当于常量，统一管理常量
 
     public ResponseResult() {
         this.code = AppHttpCodeEnum.SUCCESS.getCode();
