@@ -1,5 +1,6 @@
 package com.kumu.controller;
 
+import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.Article;
 import com.kumu.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,12 @@ public class ArticleController {
     @GetMapping("/list")
     public List<Article> test(){
         return articleService.list();
+    }
+
+    @GetMapping("/hotArticleList")
+    public ResponseResult hotArticleList(){
+        //查询热门文章，封装成ResponseResult
+        ResponseResult result = articleService.hotArticleList();
+        return result;
     }
 }
