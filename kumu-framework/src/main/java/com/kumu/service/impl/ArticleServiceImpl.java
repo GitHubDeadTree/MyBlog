@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.Article;
+import com.kumu.domain.vo.HotArticleVo;
 import com.kumu.mapper.ArticleMapper;
 import com.kumu.service.ArticleService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,8 +27,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //最多十条消息
         Page<Article> page=new Page(1,10);
         page(page,queryWrapper);
-
         List<Article> articles = page.getRecords();
-        return ResponseResult.okResult(articles);
+        List<HotArticleVo> articleVos = new ArrayList<>();
+        //bean拷贝
+        for (Article article : articles) {
+            HotArticleVo vo = new HotArticleVo();
+            BeanUtils.copyProperties(article,vo);
+            articleVos.add(vo);
+        }
+        return ResponseResult.okResult(articleVos);
     }
 }
