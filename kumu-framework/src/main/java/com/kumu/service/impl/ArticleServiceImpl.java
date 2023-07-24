@@ -6,15 +6,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kumu.constants.SystemConstants;
 import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.Article;
+import com.kumu.domain.vo.ArticleListVo;
 import com.kumu.domain.vo.HotArticleVo;
+import com.kumu.domain.vo.PageVo;
 import com.kumu.mapper.ArticleMapper;
 import com.kumu.service.ArticleService;
 import com.kumu.utils.BeanCopyUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -38,15 +42,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult articleList(Integer pageNum, Integer pageSize, Integer categoryID){
         //查询条件
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
          //如果有ID ，查询时要匹配
+        queryWrapper.eq(Objects.nonNull(categoryID) && categoryID>0,Article::getCategoryId,categoryID);
          //状态是正式的
+        queryWrapper.eq(Article::getStatus,SystemConstants.STATUS_NORMAL);
          //顶置最先显示（对isTop降序）
-
+        queryWrapper.orderByDesc(Article::getIsTop);
         //分页查询
-        Page
+        Page<Article> page = new Page<>(pageNum,pageSize);
+        page(page,queryWrapper);
+        //封装成vo
+        List<ArticleListVo> vos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
 
-
-        return null;
+        PageVo pageVo = new PageVo(vos,page.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 
 }
