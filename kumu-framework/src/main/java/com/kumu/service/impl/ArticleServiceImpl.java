@@ -34,4 +34,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<HotArticleVo> vs = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
         return ResponseResult.okResult(vs);
     }
+
+    @Override
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, Integer categoryID){
+        //查询条件
+         //如果有ID ，查询时要匹配
+         //状态是正式的
+         //顶置最先显示（对isTop降序）
+
+        //分页查询
+        Page
+
+
+        return null;
+    }
+
 }

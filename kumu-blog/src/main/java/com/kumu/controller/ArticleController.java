@@ -27,4 +27,10 @@ public class ArticleController {
         ResponseResult result = articleService.hotArticleList();
         return result;
     }
+
+    @GetMapping("/articleList")
+    public ResponseResult articleList(Integer pageNum,Integer pageSize,Integer categoryID){
+        ResponseResult result =articleService.articleList(pageNum,pageSize,categoryID);
+        return result;
+    }
 }
