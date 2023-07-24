@@ -6,22 +6,29 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kumu.constants.SystemConstants;
 import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.Article;
+import com.kumu.domain.entity.Category;
 import com.kumu.domain.vo.ArticleListVo;
 import com.kumu.domain.vo.HotArticleVo;
 import com.kumu.domain.vo.PageVo;
 import com.kumu.mapper.ArticleMapper;
 import com.kumu.service.ArticleService;
+import com.kumu.service.CategoryService;
 import com.kumu.utils.BeanCopyUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
+
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     public ResponseResult hotArticleList() {
         //查询热门文章，封装成ResponseResult
@@ -41,6 +48,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ResponseResult articleList(Integer pageNum, Integer pageSize, Integer categoryID){
+
         //查询条件
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
          //如果有ID ，查询时要匹配
@@ -52,8 +60,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //分页查询
         Page<Article> page = new Page<>(pageNum,pageSize);
         page(page,queryWrapper);
+        List <Article> articles = page.getRecords();
+        //获得分类名
+        articles = articles.stream()
+                .map(article -> {
+                    Category category = categoryService.getById(article.getCategoryId());
+                    String name = category.getName();
+                    article.setCategoryName(name);
+                    System.out.println(name+"8444444444444444444444");
+                    return article;
+                })
+                .collect(Collectors.toList());
         //封装成vo
-        List<ArticleListVo> vos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
+        List<ArticleListVo> vos = BeanCopyUtils.copyBeanList(articles, ArticleListVo.class);
 
         PageVo pageVo = new PageVo(vos,page.getTotal());
         return ResponseResult.okResult(pageVo);

@@ -12,7 +12,6 @@ import com.kumu.domain.entity.Category;
  * @since 2023-07-24 09:36:37
  */
 public interface CategoryService extends IService<Category> {
-
     ResponseResult getCategoryList();
 }
 

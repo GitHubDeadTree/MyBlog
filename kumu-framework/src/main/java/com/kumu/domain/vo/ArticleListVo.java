@@ -13,7 +13,7 @@ public class ArticleListVo {
         private Long id;//标题
         private String title;//文章摘要
         private String summary;//所属分类名
-        private Long categoryName;//缩略图
+        private String categoryName;
 
         private String thumbnail;
         //访问量
