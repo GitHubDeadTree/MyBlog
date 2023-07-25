@@ -13,6 +13,6 @@ import com.kumu.domain.entity.Link;
  */
 public interface LinkService extends IService<Link> {
 
-    ResponseResult getAllLink();
+    ResponseResult getFriendLink();
 }
 

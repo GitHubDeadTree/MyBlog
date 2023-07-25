@@ -15,8 +15,8 @@ public class LinkController {
     @Autowired
     private LinkService linkService;
 
-    @GetMapping("/getFriendLink")
-    public ResponseResult getFriendLink(){
+    @GetMapping("/getAllLink")
+    public ResponseResult getFrinendLink(){
 
         return linkService.getFriendLink();
     }

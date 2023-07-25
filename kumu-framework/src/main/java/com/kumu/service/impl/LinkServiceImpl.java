@@ -23,7 +23,7 @@ import java.util.List;
 public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements LinkService {
 
     @Override
-    public ResponseResult getAllLink(){
+    public ResponseResult getFriendLink(){
         //查询所有审核通过的link
         LambdaQueryWrapper<Link> queryWrapper= new LambdaQueryWrapper<>();
         queryWrapper.eq(Link::getStatus, SystemConstants.LINK_STATUS_NORMAL);
@@ -31,5 +31,6 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         List<LinkVo> Vos = BeanCopyUtils.copyBeanList(linkList, LinkVo.class);
         return ResponseResult.okResult(Vos);
     }
+
 }
 
