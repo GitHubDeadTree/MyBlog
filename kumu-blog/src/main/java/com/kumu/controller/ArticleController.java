@@ -5,6 +5,7 @@ import com.kumu.domain.entity.Article;
 import com.kumu.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +30,15 @@ public class ArticleController {
     }
 
     @GetMapping("/articleList")
-    public ResponseResult articleList(Integer pageNum,Integer pageSize,Integer categoryID){
-        ResponseResult result =articleService.articleList(pageNum,pageSize,categoryID);
+    public ResponseResult articleList(Integer pageNum,Integer pageSize,Integer categoryID) {
+        ResponseResult result = articleService.articleList(pageNum, pageSize, categoryID);
         return result;
     }
+
+
+    @GetMapping("/{id}")
+    public ResponseResult artcleContent (@PathVariable("id") Long id){
+        return articleService.getArticleContent(id);
+    }
+
 }

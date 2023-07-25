@@ -7,6 +7,7 @@ import com.kumu.constants.SystemConstants;
 import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.Article;
 import com.kumu.domain.entity.Category;
+import com.kumu.domain.vo.ArticleContentVo;
 import com.kumu.domain.vo.ArticleListVo;
 import com.kumu.domain.vo.HotArticleVo;
 import com.kumu.domain.vo.PageVo;
@@ -15,12 +16,12 @@ import com.kumu.service.ArticleService;
 import com.kumu.service.CategoryService;
 import com.kumu.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,7 +68,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     Category category = categoryService.getById(article.getCategoryId());
                     String name = category.getName();
                     article.setCategoryName(name);
-                    System.out.println(name+"8444444444444444444444");
                     return article;
                 })
                 .collect(Collectors.toList());
@@ -76,6 +76,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(vos,page.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult getArticleContent(Long id) {
+        //根据id查询文章
+        Article article = getById(id);
+        //根据id查询分类名
+         //查询分类
+        Category category = categoryService.getById(article.getCategoryId());
+        if (category != null)
+        article.setCategoryName(category.getName());
+        //打包成vo
+        ArticleContentVo Vo = BeanCopyUtils.copyBean(article, ArticleContentVo.class);
+        return ResponseResult.okResult(Vo);
     }
 
 }
