@@ -1,4 +1,4 @@
-package com.kumu.Config;
+package com.kumu.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
