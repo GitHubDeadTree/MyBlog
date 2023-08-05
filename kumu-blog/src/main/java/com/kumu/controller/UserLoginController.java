@@ -19,4 +19,9 @@ public class UserLoginController {
 
         return blogLoginService.login(user);
     }
+    @PostMapping("/loginout")
+    public ResponseResult loginOut(){
+
+        return blogLoginService.logout();
+    }
 }
