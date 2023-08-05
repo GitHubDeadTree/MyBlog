@@ -27,9 +27,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         //InsufficientAuthenticationException
         //BadCredentialsException
         ResponseResult result = null;
+        //判断是什么ERROR
         if (e instanceof BadCredentialsException) {
             result = ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_ERROR);
-
         }else if(e instanceof InsufficientAuthenticationException) {
             result = ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
         }else{
