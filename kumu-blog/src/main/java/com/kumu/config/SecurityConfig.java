@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);//添加过滤器
         http.logout().disable();
         //关闭默认的注销功能
+
         http.logout().disable();
         //允许跨域
         http.cors();
