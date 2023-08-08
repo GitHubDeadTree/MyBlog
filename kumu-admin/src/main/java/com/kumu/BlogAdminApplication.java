@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.kumu.mapper")  //指定mapperScanner
 public class BlogAdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(BlogAdminApplication.class, args);
+        SpringApplication.run(BlogAdminApplication.class, args );
     }
 }
