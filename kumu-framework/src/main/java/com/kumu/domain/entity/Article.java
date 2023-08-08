@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sg_article")
+@TableName("sg_article") //每个实体类都与一张表对应
 public class Article {
     @TableId
     private Long id;
