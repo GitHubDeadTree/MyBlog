@@ -15,6 +15,5 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     List<String> selectRoleKeyByUserId(Long id);
-    List<String> selectPermsByUserId(Long id);
 }
 

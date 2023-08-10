@@ -6,6 +6,7 @@ import com.kumu.mapper.RoleMapper;
 import com.kumu.service.RoleService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<String> selectRoleKeyByUserId(Long id) {
+        if (id==1L){
+            List<String> roleKeys= new ArrayList<>();
+            roleKeys.add("admin");
+            return roleKeys;
+        }
+        //否则查询用户所具有的角色信息
+        return getBaseMapper().selectRoleKeyByUserId(id);
     }
 }
 

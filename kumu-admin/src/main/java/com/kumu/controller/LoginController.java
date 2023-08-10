@@ -30,7 +30,7 @@ public class LoginController {
         return loginService.login(user);
     }
 
-    @GetMapping("/getinfo")
+    @GetMapping("/getInfo")
     public ResponseResult<AdminUserInfoVo>getInfo(){
         return menuService.getInfo();
     }

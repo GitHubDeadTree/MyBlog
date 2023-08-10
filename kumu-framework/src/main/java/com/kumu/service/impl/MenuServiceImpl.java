@@ -1,6 +1,8 @@
 package com.kumu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kumu.constants.SystemConstants;
 import com.kumu.domain.ResponseResult;
 import com.kumu.domain.entity.LoginUser;
 import com.kumu.domain.entity.Menu;
@@ -15,7 +17,9 @@ import com.kumu.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 菜单权限表(Menu)表服务实现类
@@ -44,8 +48,19 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements Men
     }
 
     private List<String> selectPermsByUserId(Long id){ //根据用户id查询权限
-
-        return null;
+        //如果是管理员，返回所有的权限
+        if(id == 1L){
+            LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.in(Menu::getMenuType,SystemConstants.MENU,SystemConstants.BUTTON);
+            wrapper.eq(Menu::getStatus, SystemConstants.STATUS_NORMAL);
+            List<Menu> menus = list(wrapper);
+            List<String> perms = menus.stream()
+                    .map(Menu::getPerms)
+                    .collect(Collectors.toList());
+            return perms;
+        }
+        //否则返回所具有的权限
+        return getBaseMapper().selectPermsByUserId(id);
     }
 }
 
