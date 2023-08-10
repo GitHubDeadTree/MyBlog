@@ -6,6 +6,8 @@ import com.kumu.mapper.RoleMapper;
 import com.kumu.service.RoleService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 角色信息表(Role)表服务实现类
  *
@@ -15,5 +17,8 @@ import org.springframework.stereotype.Service;
 @Service("roleService")
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
+    @Override
+    public List<String> selectRoleKeyByUserId(Long id) {
+    }
 }
 
