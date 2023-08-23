@@ -32,17 +32,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements Men
     @Autowired
     private RoleService roleService;
     @Override
-    public ResponseResult<AdminUserInfoVo> getInfo() {
+    public ResponseResult<AdminUserInfoVo> getInfo() { //获取用户的权限和角色
         //获取当前登录用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
         //根据用户id查询权限
         List<String> perms = selectPermsByUserId(loginUser.getUser().getId());
-        //根据用户id查询角色信息
+        //根据用户id查询角色
         List<String> roleKeyList = roleService.selectRoleKeyByUserId(loginUser.getUser().getId());
-        //获取用户信息
+        //获取用户信息，用于封装成vo
         User user = loginUser.getUser();
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
-        //封装数据返回
+        //封装权限，角色
         AdminUserInfoVo adminUserInfoVo = new AdminUserInfoVo(perms,roleKeyList,userInfoVo);
         return ResponseResult.okResult(adminUserInfoVo);
     }
@@ -59,7 +59,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements Men
                     .collect(Collectors.toList());
             return perms;
         }
-        //否则返回所具有的权限
+        //否则返回所具有的权限列表
         return getBaseMapper().selectPermsByUserId(id);
     }
 }

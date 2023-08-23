@@ -19,7 +19,7 @@ import java.util.List;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
     @Override
-    public List<String> selectRoleKeyByUserId(Long id) {
+    public List<String> selectRoleKeyByUserId(Long id) { //查询角色
         if (id==1L){
             List<String> roleKeys= new ArrayList<>();
             roleKeys.add("admin");
