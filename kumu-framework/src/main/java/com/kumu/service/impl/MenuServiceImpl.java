@@ -35,6 +35,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements Men
     public ResponseResult<AdminUserInfoVo> getInfo() { //获取用户的权限和角色
         //获取当前登录用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
+        String username = loginUser.getUsername();
+        System.out.println("当前用户是: "+username);
         //根据用户id查询权限
         List<String> perms = selectPermsByUserId(loginUser.getUser().getId());
         //根据用户id查询角色
